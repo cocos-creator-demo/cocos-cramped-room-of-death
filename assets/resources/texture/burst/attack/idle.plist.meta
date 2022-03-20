@@ -15,7 +15,7 @@
       "id": "74804",
       "name": "burst (2)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

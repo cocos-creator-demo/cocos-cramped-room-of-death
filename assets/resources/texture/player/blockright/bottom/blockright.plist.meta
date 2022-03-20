@@ -15,7 +15,7 @@
       "id": "ba075",
       "name": "blockside (13)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -49,7 +49,7 @@
       "id": "f4668",
       "name": "blockside (14)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -83,7 +83,7 @@
       "id": "9aff1",
       "name": "blockside (15)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -117,7 +117,7 @@
       "id": "14d04",
       "name": "blockside (16)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

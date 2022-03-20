@@ -15,7 +15,7 @@
       "id": "eec38",
       "name": "burst (1)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

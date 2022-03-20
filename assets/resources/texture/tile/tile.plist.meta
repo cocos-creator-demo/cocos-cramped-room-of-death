@@ -15,7 +15,7 @@
       "id": "13568",
       "name": "tile (4)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -49,7 +49,7 @@
       "id": "72187",
       "name": "tile (11)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -83,7 +83,7 @@
       "id": "88444",
       "name": "tile (23)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -117,7 +117,7 @@
       "id": "88508",
       "name": "tile (7)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -151,7 +151,7 @@
       "id": "a2539",
       "name": "tile (1)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -185,7 +185,7 @@
       "id": "1ae89",
       "name": "tile (10)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -219,7 +219,7 @@
       "id": "f9a97",
       "name": "tile (12)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -253,7 +253,7 @@
       "id": "56dd0",
       "name": "tile (13)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -287,7 +287,7 @@
       "id": "6a3d2",
       "name": "tile (14)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -321,7 +321,7 @@
       "id": "a5f53",
       "name": "tile (15)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -355,7 +355,7 @@
       "id": "bf28c",
       "name": "tile (16)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -389,7 +389,7 @@
       "id": "66f73",
       "name": "tile (17)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -423,7 +423,7 @@
       "id": "acd59",
       "name": "tile (18)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -457,7 +457,7 @@
       "id": "f6000",
       "name": "tile (19)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -491,7 +491,7 @@
       "id": "0b6e4",
       "name": "tile (2)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -525,7 +525,7 @@
       "id": "6dcd8",
       "name": "tile (20)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -559,7 +559,7 @@
       "id": "7538b",
       "name": "tile (21)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -593,7 +593,7 @@
       "id": "fb709",
       "name": "tile (22)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -627,7 +627,7 @@
       "id": "650fd",
       "name": "tile (24)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -661,7 +661,7 @@
       "id": "a86a7",
       "name": "tile (25)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -695,7 +695,7 @@
       "id": "4bd27",
       "name": "tile (26)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -729,7 +729,7 @@
       "id": "77f88",
       "name": "tile (27)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -763,7 +763,7 @@
       "id": "e2401",
       "name": "tile (28)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -797,7 +797,7 @@
       "id": "2f88a",
       "name": "tile (3)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -831,7 +831,7 @@
       "id": "c0fc3",
       "name": "tile (5)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -865,7 +865,7 @@
       "id": "8cea8",
       "name": "tile (6)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -899,7 +899,7 @@
       "id": "42c79",
       "name": "tile (8)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -933,7 +933,7 @@
       "id": "18e44",
       "name": "tile (9)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

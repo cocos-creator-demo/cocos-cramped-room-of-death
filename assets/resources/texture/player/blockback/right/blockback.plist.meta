@@ -15,7 +15,7 @@
       "id": "71b7c",
       "name": "blockface (29)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -49,7 +49,7 @@
       "id": "64ace",
       "name": "blockface (30)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -83,7 +83,7 @@
       "id": "f1c71",
       "name": "blockface (31)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -117,7 +117,7 @@
       "id": "ed5d9",
       "name": "blockface (32)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

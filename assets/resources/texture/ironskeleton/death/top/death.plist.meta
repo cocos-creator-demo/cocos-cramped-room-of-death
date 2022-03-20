@@ -15,7 +15,7 @@
       "id": "17157",
       "name": "ironskeleton (64)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -49,7 +49,7 @@
       "id": "51745",
       "name": "ironskeleton (71)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -83,7 +83,7 @@
       "id": "b0613",
       "name": "ironskeleton (59)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -117,7 +117,7 @@
       "id": "f198d",
       "name": "ironskeleton (60)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -151,7 +151,7 @@
       "id": "5a547",
       "name": "ironskeleton (61)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -185,7 +185,7 @@
       "id": "a2586",
       "name": "ironskeleton (62)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -219,7 +219,7 @@
       "id": "aba52",
       "name": "ironskeleton (63)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -253,7 +253,7 @@
       "id": "a4072",
       "name": "ironskeleton (65)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -287,7 +287,7 @@
       "id": "f2b48",
       "name": "ironskeleton (66)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -321,7 +321,7 @@
       "id": "17bb9",
       "name": "ironskeleton (67)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -355,7 +355,7 @@
       "id": "f7dd0",
       "name": "ironskeleton (68)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -389,7 +389,7 @@
       "id": "ede44",
       "name": "ironskeleton (69)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -423,7 +423,7 @@
       "id": "02a91",
       "name": "ironskeleton (70)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -457,7 +457,7 @@
       "id": "bdf60",
       "name": "ironskeleton (72)",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
