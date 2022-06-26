@@ -37,13 +37,15 @@ export class EntityManager extends Component {
 
   set state(val) {
     this._state = val
-    this.fsm.setParams(PARAMS_NAME_ENUM.TURN_LEFT, true)
+    this.fsm.setParams(PARAMS_NAME_ENUM[val], true)
   }
 
   init(params: IEntity) {
     this.state = params.state
     this.direction = params.direction
     this.type = params.type
+    this.x = params.x
+    this.y = params.y
   }
 
   update() {

@@ -1406,7 +1406,7 @@
     "component": "",
     "_componentId": "386d4R/4tJPcqZfHck96h8Z",
     "handler": "handleCtrl",
-    "customEventData": ""
+    "customEventData": "TURN_RIGHT"
   },
   {
     "__type__": "cc.Node",

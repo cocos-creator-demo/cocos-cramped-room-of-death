@@ -2,6 +2,7 @@ import { AnimationClip, animation, Sprite, SpriteFrame } from 'cc'
 import { PlayerStateMachine } from '../player/PlayerStateMachine'
 import { TILE_HEIGHT, TILE_WIDTH } from '../tile/TileManager'
 import ResourceManager from '../runtime/ResourceManager'
+import { sortSpriteFrame } from '../utils'
 
 const ANIMATION_SPEED = 1 / 8 // 1秒8帧
 
@@ -21,7 +22,7 @@ export default class AnimateState {
     const track = new animation.ObjectTrack() // 创建一个向量轨道
     track.path = new animation.TrackPath().toComponent(Sprite).toProperty('spriteFrame')
 
-    const frames: Array<[number, SpriteFrame]> = spriteFrames.map((item, index) => [
+    const frames: Array<[number, SpriteFrame]> = sortSpriteFrame(spriteFrames).map((item, index) => [
       index * ANIMATION_SPEED,
       item,
     ])

@@ -1,4 +1,4 @@
-import { Layers, Node, UITransform, Vec2 } from 'cc'
+import { Layers, Node, SpriteFrame, UITransform, Vec2 } from 'cc'
 
 const getUIMaskNumber = () => 1 << Layers.nameToLayer('UI_2D')
 
@@ -9,3 +9,10 @@ export const createUINode = (name: string = '') => {
   transform.anchorPoint = new Vec2(0, 1)
   return node
 }
+
+const INDEX_REG = /\((\d+)\)/
+
+const getNumberWithinString = (str: string) => parseInt(str.match(INDEX_REG)?.[1] || '0')
+
+export const sortSpriteFrame = (spriteFrame: Array<SpriteFrame>) =>
+  spriteFrame.sort((a, b) => getNumberWithinString(a.name) - getNumberWithinString(b.name))

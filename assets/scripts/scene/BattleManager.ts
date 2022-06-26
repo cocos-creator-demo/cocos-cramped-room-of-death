@@ -10,6 +10,7 @@ import { createUINode } from '../utils'
 import EventManager from '../runtime/EventManager'
 import { EVENT_ENUM } from '../enums'
 import { PlayerManager } from '../player/PlayerManager'
+import { WoodenSkeletonManager } from '../enemy/WoodenSkeletonManager'
 
 
 @ccclass('BattleManager')
@@ -30,6 +31,7 @@ export class BattleManager extends Component {
     this.initStage()
     this.initLevel()
     this.generatePlayer()
+    this.generateEnemies()
   }
 
   initStage() {
@@ -70,6 +72,14 @@ export class BattleManager extends Component {
     const playerManager = node.addComponent(PlayerManager)
     await playerManager.init()
 
+  }
+
+  async generateEnemies(){
+    const node = createUINode()
+    node.setParent(this.stage)
+
+    const playerManager = node.addComponent(WoodenSkeletonManager)
+    await playerManager.init()
   }
 
   async generateTileMap() {
