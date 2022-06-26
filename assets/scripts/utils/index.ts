@@ -10,6 +10,15 @@ export const createUINode = (name: string = '') => {
   return node
 }
 
+export function uuid(
+  length = 32,
+  chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+) {
+  let result = ''
+  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)]
+  return result
+}
+
 const INDEX_REG = /\((\d+)\)/
 
 const getNumberWithinString = (str: string) => parseInt(str.match(INDEX_REG)?.[1] || '0')

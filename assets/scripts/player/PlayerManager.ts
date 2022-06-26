@@ -5,6 +5,7 @@ import EventManager from '../runtime/EventManager'
 import { PlayerStateMachine } from './PlayerStateMachine'
 import { EntityManager } from '../base/EntityManager'
 import DataManager from '../runtime/DataManager'
+import { WoodenSkeletonManager } from '../enemy/WoodenSkeletonManager'
 
 const { ccclass } = _decorator
 
@@ -15,6 +16,7 @@ export class PlayerManager extends EntityManager {
   targetX: number = 0
   targetY: number = 0
   fsm: PlayerStateMachine
+  isMoving: boolean = false
 
   private readonly speed = 1 / 10
 
@@ -35,6 +37,12 @@ export class PlayerManager extends EntityManager {
 
     this.render()
     EventManager.Instance.on(EVENT_ENUM.PLAYER_CTRL, this.inputHandle, this)
+    EventManager.Instance.on(EVENT_ENUM.ATTACK_PLAYER, this.onDie, this)
+  }
+
+  onDestroy() {
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_CTRL, this.inputHandle)
+    EventManager.Instance.off(EVENT_ENUM.ATTACK_PLAYER, this.onDie)
   }
 
   update() {
@@ -56,31 +64,52 @@ export class PlayerManager extends EntityManager {
       this.y += this.speed
     }
 
-    if (Math.abs(this.targetX - this.x) <= 0.1 && Math.abs(this.targetY - this.y) <= 0.1) {
+    if (Math.abs(this.targetX - this.x) <= 0.1 && Math.abs(this.targetY - this.y) <= 0.1 && this.isMoving) {
+      this.isMoving = false
       this.x = this.targetX
       this.y = this.targetY
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
     }
   }
 
   inputHandle(dir: CONTROLLER_NUM) {
+    if (this.isMoving) {
+      return
+    }
+    if ([ENTITY_STATE_ENUM.DEATH, ENTITY_STATE_ENUM.ATTACK].indexOf(this.state) > -1) {
+      return
+    }
+    const enemy = this.willAttack(dir)
+    if (enemy) {
+      EventManager.Instance.emit(EVENT_ENUM.ATTACK_ENEMY, enemy)
+      return
+    }
     if (this.willBlock(dir)) {
       return
     }
     this.move(dir)
   }
 
+  onDie(type: ENTITY_STATE_ENUM) {
+    this.state = type
+  }
+
   move(dir: CONTROLLER_NUM) {
     switch (dir) {
       case CONTROLLER_NUM.BOTTOM:
         this.targetY += 1
+        this.isMoving = true
         break
       case CONTROLLER_NUM.TOP:
+        this.isMoving = true
         this.targetY -= 1
         break
       case CONTROLLER_NUM.RIGHT:
+        this.isMoving = true
         this.targetX += 1
         break
       case CONTROLLER_NUM.LEFT:
+        this.isMoving = true
         this.targetX -= 1
         break
       case CONTROLLER_NUM.TURN_LEFT:
@@ -94,6 +123,7 @@ export class PlayerManager extends EntityManager {
           this.direction = DIRECTION_ENUM.TOP
         }
         this.state = ENTITY_STATE_ENUM.TURN_LEFT
+        EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
         break
       case CONTROLLER_NUM.TURN_RIGHT:
         if (this.direction === DIRECTION_ENUM.TOP) {
@@ -106,6 +136,7 @@ export class PlayerManager extends EntityManager {
           this.direction = DIRECTION_ENUM.TOP
         }
         this.state = ENTITY_STATE_ENUM.TURN_RIGHT
+        EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
         break
     }
   }
@@ -118,6 +149,24 @@ export class PlayerManager extends EntityManager {
     transform.setContentSize(TILE_WIDTH * 4, TILE_HEIGHT * 4)
   }
 
+  willAttack(dir: CONTROLLER_NUM): WoodenSkeletonManager | null {
+    const enemies = DataManager.Instance.enemies
+
+    for (const enemy of enemies) {
+      const { x: enemyX, y: enemyY, state: enemyState } = enemy
+      if (enemyState === ENTITY_STATE_ENUM.DEATH) continue
+      if (
+        (dir === CONTROLLER_NUM.TOP && this.direction === DIRECTION_ENUM.TOP && enemyX === this.x && enemyY === this.y - 2) ||
+        (dir === CONTROLLER_NUM.BOTTOM && this.direction === DIRECTION_ENUM.BOTTOM && enemyX === this.x && enemyY === this.y + 2) ||
+        (dir === CONTROLLER_NUM.LEFT && this.direction === DIRECTION_ENUM.LEFT && enemyY === this.y && enemyX === this.x - 2) ||
+        (dir === CONTROLLER_NUM.RIGHT && this.direction === DIRECTION_ENUM.RIGHT && enemyY === this.y && enemyX === this.x + 2)
+      ) {
+        this.state = ENTITY_STATE_ENUM.ATTACK
+        return enemy
+      }
+    }
+    return null
+  }
 
   willBlock(dir: CONTROLLER_NUM): boolean {
     const { targetX: x, targetY: y, direction } = this

@@ -72,14 +72,17 @@ export class BattleManager extends Component {
     const playerManager = node.addComponent(PlayerManager)
     await playerManager.init()
 
+    DataManager.Instance.player = playerManager
   }
 
-  async generateEnemies(){
+  async generateEnemies() {
     const node = createUINode()
     node.setParent(this.stage)
 
-    const playerManager = node.addComponent(WoodenSkeletonManager)
-    await playerManager.init()
+    const woodenSkeletonManager = node.addComponent(WoodenSkeletonManager)
+    await woodenSkeletonManager.init()
+
+    DataManager.Instance.enemies.push(woodenSkeletonManager)
   }
 
   async generateTileMap() {
