@@ -29,3 +29,38 @@ export enum CONTROLLER_NUM {
   TURN_LEFT = 'TURN_LEFT',
   TURN_RIGHT = 'TURN_RIGHT'
 }
+
+export enum FSM_PARAMS_TYPE_ENUM {
+  NUMBER = 'NUMBER',
+  TRIGGER = 'TRIGGER'
+}
+
+export enum PARAMS_NAME_ENUM {
+  IDLE = 'IDLE',
+  TURN_LEFT = 'TURN_LEFT',
+  DIRECTION = 'DIRECTION'
+
+}
+
+export enum DIRECTION_ENUM {
+  TOP = 'TOP',
+  RIGHT = 'RIGHT',
+  LEFT = 'LEFT',
+  BOTTOM = 'BOTTOM',
+}
+
+export enum ENTITY_STATE_ENUM {
+  IDLE = 'IDLE',
+  TURN_LEFT = 'TURN_LEFT'
+}
+
+export enum DIRECTION_ORDER_ENUM {
+  TOP = 0,
+  RIGHT = 1,
+  LEFT = 2,
+  BOTTOM = 3,
+}
+
+export enum ENTITY_TYPE_ENUM {
+  PLAYER = 'PLAYER'
+}

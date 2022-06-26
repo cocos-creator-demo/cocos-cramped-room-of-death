@@ -1,34 +1,48 @@
-import { _decorator, animation, Animation, AnimationClip, Component, Sprite, SpriteFrame, UITransform } from 'cc'
-import ResourceManager from '../runtime/ResourceManager'
+import { _decorator, Sprite, UITransform } from 'cc'
 import { TILE_HEIGHT, TILE_WIDTH } from '../tile/TileManager'
-import { CONTROLLER_NUM, EVENT_ENUM } from '../enums'
+import {
+  CONTROLLER_NUM,
+  DIRECTION_ENUM,
+  ENTITY_STATE_ENUM,
+  ENTITY_TYPE_ENUM,
+  EVENT_ENUM,
+} from '../enums'
 import EventManager from '../runtime/EventManager'
+import { PlayerStateMachine } from './PlayerStateMachine'
+import { EntityManager } from '../base/EntityManager'
 
 const { ccclass } = _decorator
 
 
-const ANIMATION_SPEED = 1 / 8 // 1秒8帧
-
 @ccclass('PlayerManager')
-export class PlayerManager extends Component {
-  x: number = 0
-  y: number = 0
+export class PlayerManager extends EntityManager {
+
   targetX: number = 0
   targetY: number = 0
+  fsm: PlayerStateMachine
 
   private readonly speed = 1 / 10
 
-
   init() {
+    this.fsm = this.addComponent(PlayerStateMachine)
+    this.fsm.init()
+
+    super.init({
+      x: 0,
+      y: 0,
+      type: ENTITY_TYPE_ENUM.PLAYER,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+    })
+
     this.render()
-    EventManager.Instance.on(EVENT_ENUM.PLAYER_CTRL, this.move, this)
+    EventManager.Instance.on(EVENT_ENUM.PLAYER_CTRL, this.inputHandle, this)
   }
 
   update() {
     this.updateXY()
-    this.node.setPosition(this.x * TILE_WIDTH - 1.5 * TILE_WIDTH, -this.y * TILE_HEIGHT + TILE_HEIGHT * 1.5)
+    super.update()
   }
-
 
   updateXY() {
     if (this.targetX < this.x) {
@@ -50,8 +64,14 @@ export class PlayerManager extends Component {
     }
   }
 
+  inputHandle(dir: CONTROLLER_NUM) {
+    if (this.willBlock(dir)) {
+      return
+    }
+    this.move(dir)
+  }
+
   move(dir: CONTROLLER_NUM) {
-    console.log('move', dir)
     switch (dir) {
       case CONTROLLER_NUM.BOTTOM:
         this.targetY += 1
@@ -65,36 +85,30 @@ export class PlayerManager extends Component {
       case CONTROLLER_NUM.LEFT:
         this.targetX -= 1
         break
+      case CONTROLLER_NUM.TURN_LEFT:
+        if (this.direction === DIRECTION_ENUM.TOP) {
+          this.direction = DIRECTION_ENUM.LEFT
+        } else if (this.direction === DIRECTION_ENUM.LEFT) {
+          this.direction = DIRECTION_ENUM.BOTTOM
+        } else if (this.direction === DIRECTION_ENUM.BOTTOM) {
+          this.direction = DIRECTION_ENUM.RIGHT
+        } else if (this.direction === DIRECTION_ENUM.RIGHT) {
+          this.direction = DIRECTION_ENUM.TOP
+        }
+        this.state = ENTITY_STATE_ENUM.TURN_LEFT
+        break
     }
   }
 
-  async render() {
+  render() {
     const sprite = this.addComponent(Sprite)
     sprite.sizeMode = Sprite.SizeMode.CUSTOM
 
     const transform = this.getComponent(UITransform)
     transform.setContentSize(TILE_WIDTH * 4, TILE_HEIGHT * 4)
+  }
 
-    const spriteFrames = await ResourceManager.Instance.loadDir('texture/player/idle/top')
-    const track = new animation.ObjectTrack() // 创建一个向量轨道
-    track.path = new animation.TrackPath().toComponent(Sprite).toProperty('spriteFrame')
-
-    const frames: Array<[number, SpriteFrame]> = spriteFrames.map((item, index) => [
-      index * ANIMATION_SPEED,
-      item,
-    ])
-    track.channel.curve.assignSorted(frames)
-
-
-    const animationClip = new AnimationClip()
-    animationClip.addTrack(track)
-
-    animationClip.duration = frames.length * ANIMATION_SPEED
-    animationClip.wrapMode = AnimationClip.WrapMode.Loop
-
-    const animationComp = this.addComponent(Animation)
-
-    animationComp.defaultClip = animationClip
-    animationComp.play()
+  willBlock(dir: CONTROLLER_NUM): boolean {
+    return false
   }
 }

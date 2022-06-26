@@ -1,6 +1,6 @@
 import level1 from './level1'
 import level2 from './level2'
-import { TILE_TYPE_ENUM } from '../enums'
+import { DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM, TILE_TYPE_ENUM } from '../enums'
 
 
 export interface ITile {
@@ -18,3 +18,12 @@ const levels: Record<string, ILevel> = {
 }
 
 export default levels
+
+
+export interface IEntity {
+  type: ENTITY_TYPE_ENUM,
+  x: number,
+  y: number,
+  state: ENTITY_STATE_ENUM,
+  direction: DIRECTION_ENUM
+}

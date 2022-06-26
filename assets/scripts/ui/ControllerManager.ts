@@ -8,7 +8,6 @@ const { ccclass } = _decorator
 export class ControllerManager extends Component {
 
   handleCtrl(evt: Event, dir: string) {
-    console.log(dir)
     EventManager.Instance.emit(EVENT_ENUM.PLAYER_CTRL, dir as CONTROLLER_NUM)
   }
 }
