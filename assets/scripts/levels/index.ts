@@ -27,3 +27,10 @@ export interface IEntity {
   state: ENTITY_STATE_ENUM,
   direction: DIRECTION_ENUM
 }
+
+export interface ISpikes {
+  type: ENTITY_TYPE_ENUM,
+  x: number,
+  y: number,
+  count: number
+}

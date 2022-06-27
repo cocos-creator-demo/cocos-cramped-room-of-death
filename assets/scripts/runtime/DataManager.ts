@@ -2,7 +2,9 @@ import Singleton from '../base/Singleton'
 import { ITile } from '../levels'
 import { TileManager } from '../tile/TileManager'
 import { PlayerManager } from '../player/PlayerManager'
-import { WoodenSkeletonManager } from '../enemy/WoodenSkeletonManager'
+import { DoorManager } from '../door/DoorManager'
+import { EnemyManager } from '../base/EnemyManager'
+import { BurstManager } from '../burst/BurstManager'
 
 
 export default class DataManager extends Singleton {
@@ -15,7 +17,9 @@ export default class DataManager extends Singleton {
   levelIndex: number = 1
 
   player: PlayerManager = null
-  enemies: WoodenSkeletonManager[] = []
+  door: DoorManager = null
+  enemies: EnemyManager[] = []
+  bursts: BurstManager[] = []
 
   static get Instance() {
     return super.getInstance<DataManager>()
@@ -28,6 +32,8 @@ export default class DataManager extends Singleton {
     this.tileInfo = []
     this.player = null
     this.enemies = []
+    this.door = null
+    this.bursts = []
   }
 }
 

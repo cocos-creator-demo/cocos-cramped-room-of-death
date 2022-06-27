@@ -15,6 +15,7 @@ import BlockTurnLeftStateMachine from './BlockTurnLeftStateMachine'
 import BlockTurnRightStateMachine from './BlockTurnRightStateMachine'
 import DeathStateMachine from './DeathStateMachine'
 import AttackStateMachine from './AttackStateMachine'
+import DeathOnAirStateMachine from './DeathOnAirStateMachine'
 
 const { ccclass } = _decorator
 
@@ -39,6 +40,7 @@ export class PlayerStateMachine extends AnimationStateMachine {
     this.params.set(PARAMS_NAME_ENUM.BLOCK_TURN_LEFT, getInitParamsTrigger())
     this.params.set(PARAMS_NAME_ENUM.BLOCK_TURN_RIGHT, getInitParamsTrigger())
     this.params.set(PARAMS_NAME_ENUM.DEATH, getInitParamsTrigger())
+    this.params.set(PARAMS_NAME_ENUM.DEATH_ON_AIR, getInitParamsTrigger())
     this.params.set(PARAMS_NAME_ENUM.ATTACK, getInitParamsTrigger())
 
     this.params.set(PARAMS_NAME_ENUM.DIRECTION, getInitParamsNumber())
@@ -53,6 +55,7 @@ export class PlayerStateMachine extends AnimationStateMachine {
     this.stateMachines.set(PARAMS_NAME_ENUM.BLOCK_TURN_LEFT, new BlockTurnLeftStateMachine(this))
     this.stateMachines.set(PARAMS_NAME_ENUM.BLOCK_TURN_RIGHT, new BlockTurnRightStateMachine(this))
     this.stateMachines.set(PARAMS_NAME_ENUM.DEATH, new DeathStateMachine(this))
+    this.stateMachines.set(PARAMS_NAME_ENUM.DEATH_ON_AIR, new DeathOnAirStateMachine(this))
     this.stateMachines.set(PARAMS_NAME_ENUM.ATTACK, new AttackStateMachine(this))
   }
 
@@ -79,6 +82,7 @@ export class PlayerStateMachine extends AnimationStateMachine {
       case this.stateMachines.get(PARAMS_NAME_ENUM.BLOCK_TURN_LEFT):
       case this.stateMachines.get(PARAMS_NAME_ENUM.BLOCK_TURN_RIGHT):
       case this.stateMachines.get(PARAMS_NAME_ENUM.DEATH):
+      case this.stateMachines.get(PARAMS_NAME_ENUM.DEATH_ON_AIR):
       case this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK):
         if (this.params.get(PARAMS_NAME_ENUM.TURN_LEFT).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.TURN_LEFT)
@@ -94,6 +98,8 @@ export class PlayerStateMachine extends AnimationStateMachine {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.BLOCK_TURN_RIGHT)
         } else if (this.params.get(PARAMS_NAME_ENUM.DEATH).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.DEATH)
+        } else if (this.params.get(PARAMS_NAME_ENUM.DEATH_ON_AIR).value) {
+          this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.DEATH_ON_AIR)
         } else if (this.params.get(PARAMS_NAME_ENUM.ATTACK).value) {
           this.currentState = this.stateMachines.get(PARAMS_NAME_ENUM.ATTACK)
         } else {

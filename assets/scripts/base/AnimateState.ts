@@ -1,8 +1,7 @@
 import { AnimationClip, animation, Sprite, SpriteFrame } from 'cc'
-import { PlayerStateMachine } from '../player/PlayerStateMachine'
-import { TILE_HEIGHT, TILE_WIDTH } from '../tile/TileManager'
 import ResourceManager from '../runtime/ResourceManager'
 import { sortSpriteFrame } from '../utils'
+import { AnimationStateMachine } from './AnimationStateMachine'
 
 const ANIMATION_SPEED = 1 / 8 // 1秒8帧
 
@@ -12,7 +11,7 @@ export default class AnimateState {
 
   runCache: Function[] = []
 
-  constructor(private fsm: PlayerStateMachine, private path: string, private wrapMode: AnimationClip.WrapMode = AnimationClip.WrapMode.Normal) {
+  constructor(private fsm: AnimationStateMachine, private path: string, private wrapMode: AnimationClip.WrapMode = AnimationClip.WrapMode.Normal) {
     this.init()
   }
 

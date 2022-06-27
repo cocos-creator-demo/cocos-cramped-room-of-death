@@ -32,6 +32,7 @@ export const getInitParamsNumber = () => {
 export abstract class AnimationStateMachine extends Component {
   params: Map<string, IParamsValue> = new Map()
   stateMachines: Map<string, AnimateState | AnimationSubStateMachine> = new Map()
+  animationComponent: Animation
 
   private _currentState: AnimateState | AnimationSubStateMachine
   get currentState() {

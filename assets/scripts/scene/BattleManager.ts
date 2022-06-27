@@ -8,9 +8,18 @@ import levels from '../levels'
 import { TILE_HEIGHT, TILE_WIDTH } from '../tile/TileManager'
 import { createUINode } from '../utils'
 import EventManager from '../runtime/EventManager'
-import { EVENT_ENUM } from '../enums'
+import {
+  DIRECTION_ENUM,
+  ENTITY_STATE_ENUM,
+  ENTITY_TYPE_ENUM,
+  EVENT_ENUM,
+  SPIKES_TYPE_MAP_TOTAL_COUNT_ENUM,
+} from '../enums'
 import { PlayerManager } from '../player/PlayerManager'
-import { WoodenSkeletonManager } from '../enemy/WoodenSkeletonManager'
+import { WoodenSkeletonManager } from '../woodenSkeleton/WoodenSkeletonManager'
+import { DoorManager } from '../door/DoorManager'
+import { BurstManager } from '../burst/BurstManager'
+import { SpikesManager } from '../spikes/SpikesManager'
 
 
 @ccclass('BattleManager')
@@ -27,11 +36,18 @@ export class BattleManager extends Component {
     EventManager.Instance.off(EVENT_ENUM.NEXT_LEVEL, this.nextLevel)
   }
 
-  start() {
+  async start() {
     this.initStage()
     this.initLevel()
-    this.generatePlayer()
-    this.generateEnemies()
+
+    await Promise.all([
+      // this.generateEnemies(),
+      // this.generateDoor(),
+      // this.generateBursts(),
+      this.generateSpikes()
+    ])
+
+    await this.generatePlayer()
   }
 
   initStage() {
@@ -65,25 +81,6 @@ export class BattleManager extends Component {
     this.stage.destroyAllChildren()
   }
 
-  async generatePlayer() {
-    const node = createUINode()
-    node.setParent(this.stage)
-
-    const playerManager = node.addComponent(PlayerManager)
-    await playerManager.init()
-
-    DataManager.Instance.player = playerManager
-  }
-
-  async generateEnemies() {
-    const node = createUINode()
-    node.setParent(this.stage)
-
-    const woodenSkeletonManager = node.addComponent(WoodenSkeletonManager)
-    await woodenSkeletonManager.init()
-
-    DataManager.Instance.enemies.push(woodenSkeletonManager)
-  }
 
   async generateTileMap() {
     const stage = this.stage
@@ -100,6 +97,86 @@ export class BattleManager extends Component {
     const disY = (TILE_HEIGHT * mapColumnCount) / 2 + 100
 
     stage.setPosition(-disX, disY)
+  }
+
+
+  async generatePlayer() {
+    const node = createUINode()
+    node.setParent(this.stage)
+
+    const playerManager = node.addComponent(PlayerManager)
+    await playerManager.init({
+      x: 2,
+      y: 8,
+      type: ENTITY_TYPE_ENUM.PLAYER,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+    })
+
+    DataManager.Instance.player = playerManager
+  }
+
+  async generateEnemies() {
+    const node = createUINode()
+    node.setParent(this.stage)
+
+    const woodenSkeletonManager = node.addComponent(WoodenSkeletonManager)
+    await woodenSkeletonManager.init({
+      x: 2,
+      y: 5,
+      type: ENTITY_TYPE_ENUM.WOODEN_SKELETON,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+    })
+
+    DataManager.Instance.enemies.push(woodenSkeletonManager)
+  }
+
+  async generateDoor() {
+    const node = createUINode()
+    node.setParent(this.stage)
+
+    const doorManager = node.addComponent(DoorManager)
+    await doorManager.init({
+      x: 7,
+      y: 8,
+      type: ENTITY_TYPE_ENUM.DOOR,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+    })
+
+    DataManager.Instance.door = doorManager
+  }
+
+  async generateBursts(){
+    const node = createUINode()
+    node.setParent(this.stage)
+
+    const burstManager = node.addComponent(BurstManager)
+    await burstManager.init({
+      x: 2,
+      y: 6,
+      type: ENTITY_TYPE_ENUM.BURST,
+      direction: DIRECTION_ENUM.TOP,
+      state: ENTITY_STATE_ENUM.IDLE,
+    })
+
+    DataManager.Instance.bursts.push(burstManager)
+  }
+
+  async generateSpikes(){
+    const node = createUINode()
+    node.setParent(this.stage)
+
+    const spikesManager = node.addComponent(SpikesManager)
+    await spikesManager.init({
+      x: 2,
+      y: 6,
+      type: ENTITY_TYPE_ENUM.SPIKES_FOUR,
+      count: 0
+    })
+
+    // DataManager.Instance.bursts.push(burstManager)
   }
 
 }

@@ -1,11 +1,10 @@
-import { _decorator, Sprite, UITransform } from 'cc'
-import { TILE_HEIGHT, TILE_WIDTH } from '../tile/TileManager'
-import { CONTROLLER_NUM, DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM, EVENT_ENUM } from '../enums'
+import { _decorator } from 'cc'
+import { CONTROLLER_NUM, DIRECTION_ENUM, ENTITY_STATE_ENUM, EVENT_ENUM } from '../enums'
 import EventManager from '../runtime/EventManager'
 import { PlayerStateMachine } from './PlayerStateMachine'
 import { EntityManager } from '../base/EntityManager'
 import DataManager from '../runtime/DataManager'
-import { WoodenSkeletonManager } from '../enemy/WoodenSkeletonManager'
+import { IEntity } from '../levels'
 
 const { ccclass } = _decorator
 
@@ -20,27 +19,22 @@ export class PlayerManager extends EntityManager {
 
   private readonly speed = 1 / 10
 
-  init() {
+  init(params:IEntity) {
     this.fsm = this.addComponent(PlayerStateMachine)
     this.fsm.init()
 
-    super.init({
-      x: 2,
-      y: 8,
-      type: ENTITY_TYPE_ENUM.PLAYER,
-      direction: DIRECTION_ENUM.TOP,
-      state: ENTITY_STATE_ENUM.IDLE,
-    })
+    super.init(params)
 
     this.targetX = this.x
     this.targetY = this.y
 
-    this.render()
     EventManager.Instance.on(EVENT_ENUM.PLAYER_CTRL, this.inputHandle, this)
     EventManager.Instance.on(EVENT_ENUM.ATTACK_PLAYER, this.onDie, this)
   }
 
   onDestroy() {
+    super.onDestroy()
+
     EventManager.Instance.off(EVENT_ENUM.PLAYER_CTRL, this.inputHandle)
     EventManager.Instance.off(EVENT_ENUM.ATTACK_PLAYER, this.onDie)
   }
@@ -76,12 +70,13 @@ export class PlayerManager extends EntityManager {
     if (this.isMoving) {
       return
     }
-    if ([ENTITY_STATE_ENUM.DEATH, ENTITY_STATE_ENUM.ATTACK].indexOf(this.state) > -1) {
+    if ([ENTITY_STATE_ENUM.DEATH,ENTITY_STATE_ENUM.DEATH_ON_AIR, ENTITY_STATE_ENUM.ATTACK].indexOf(this.state) > -1) {
       return
     }
     const enemy = this.willAttack(dir)
     if (enemy) {
       EventManager.Instance.emit(EVENT_ENUM.ATTACK_ENEMY, enemy)
+      EventManager.Instance.emit(EVENT_ENUM.DOOR_OPEN)
       return
     }
     if (this.willBlock(dir)) {
@@ -141,20 +136,12 @@ export class PlayerManager extends EntityManager {
     }
   }
 
-  render() {
-    const sprite = this.addComponent(Sprite)
-    sprite.sizeMode = Sprite.SizeMode.CUSTOM
-
-    const transform = this.getComponent(UITransform)
-    transform.setContentSize(TILE_WIDTH * 4, TILE_HEIGHT * 4)
-  }
-
-  willAttack(dir: CONTROLLER_NUM): WoodenSkeletonManager | null {
+  willAttack(dir: CONTROLLER_NUM): EntityManager | null {
     const enemies = DataManager.Instance.enemies
 
     for (const enemy of enemies) {
-      const { x: enemyX, y: enemyY, state: enemyState } = enemy
-      if (enemyState === ENTITY_STATE_ENUM.DEATH) continue
+      const { x: enemyX, y: enemyY, isDie } = enemy
+      if (isDie) continue
       if (
         (dir === CONTROLLER_NUM.TOP && this.direction === DIRECTION_ENUM.TOP && enemyX === this.x && enemyY === this.y - 2) ||
         (dir === CONTROLLER_NUM.BOTTOM && this.direction === DIRECTION_ENUM.BOTTOM && enemyX === this.x && enemyY === this.y + 2) ||
@@ -172,13 +159,43 @@ export class PlayerManager extends EntityManager {
     const { targetX: x, targetY: y, direction } = this
     const { tileInfo } = DataManager.Instance
 
+
+    // 对应坐标上是否有障碍
+    const hasObstacle = (x, y) => {
+      const {door} =  DataManager.Instance
+      if(door) {
+        const { x: doorX, y: doorY, isDie: isDoorDie } = door
+        if (!isDoorDie && doorX === x && doorY === y) return true
+      }
+
+      const enemies = DataManager.Instance.enemies
+      return enemies.some(enemy => {
+        return !enemy.isDie && enemy.x === x && enemy.y === y
+      })
+    }
+
+    const canTileTurnable = (x, y) => {
+      const tile = tileInfo[x][y]
+      if (!tile) return true
+      if (!tile.turnable) return false
+      return !hasObstacle(x, y)
+    }
+    const canTileMovable = (x, y) => {
+      const tile = tileInfo[x][y]
+      if(!tile) {
+        // 是否有悬空的石头，有的话也可以走
+        const bursts = DataManager.Instance.bursts
+        return bursts.some(burst=>{
+          return !burst.isDie && burst.x === x && burst.y === y
+        })
+
+      }
+      if(!tile.moveable) return false
+      return !hasObstacle(x, y)
+    }
     // 武器是否能够旋转
     const canWeaponTurn = (x, y, nextX, nextY) => {
-      const t1 = tileInfo[x][nextY]
-      const t2 = tileInfo[nextX][y]
-      const t3 = tileInfo[nextX][nextY]
-
-      return ((!t1 || t1.turnable) && (!t2 || t2.turnable) && (!t3 || t3.turnable))
+      return canTileTurnable(x, nextY) && canTileTurnable(nextX, y) && canTileTurnable(nextX, nextY)
     }
     // 根据人物位置获取武器位置
     const getWeaponPosByPlayer = (playerNextX, playerNextY) => {
@@ -266,9 +283,9 @@ export class PlayerManager extends EntityManager {
 
     const { x: weaponNextX, y: weaponNextY } = getWeaponPosByPlayer(playerNextX, playerNextY)
 
-    const playerTile = tileInfo[playerNextX] && tileInfo[playerNextX][playerNextY]
-    const weaponTile = tileInfo[weaponNextX] && tileInfo[weaponNextX][weaponNextY]
-    if (playerTile && playerTile.moveable && (!weaponTile || weaponTile.turnable)) {
+    // const playerTile = tileInfo[playerNextX] && tileInfo[playerNextX][playerNextY]
+    // const weaponTile = tileInfo[weaponNextX] && tileInfo[weaponNextX][weaponNextY]
+    if (canTileMovable(playerNextX, playerNextY) && canTileTurnable(weaponNextX, weaponNextY)) {
       // nothing
     } else {
       this.state = ENTITY_STATE_ENUM.BLOCK_FRONT
