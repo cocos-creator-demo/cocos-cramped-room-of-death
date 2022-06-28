@@ -35,8 +35,7 @@ export class EntityManager extends Component {
     this.fsm.setParams(PARAMS_NAME_ENUM[val], true)
   }
 
-
-  get isDie(){
+  get isDie() {
     return this.state === ENTITY_STATE_ENUM.DEATH || this.state === ENTITY_STATE_ENUM.DEATH_ON_AIR
   }
 
@@ -57,4 +56,8 @@ export class EntityManager extends Component {
   update() {
     this.node.setPosition(this.x * TILE_WIDTH - 1.5 * TILE_WIDTH, -this.y * TILE_HEIGHT + TILE_HEIGHT * 1.5)
   }
+
+  onDestroy() {
+  }
+
 }

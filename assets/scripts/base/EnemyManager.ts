@@ -26,6 +26,9 @@ export class EnemyManager extends EntityManager {
 
   onDestroy() {
     super.onDestroy()
+
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_BORN, this.changeToPlayerDirection)
+    EventManager.Instance.off(EVENT_ENUM.PLAYER_MOVE_END, this.changeToPlayerDirection)
     EventManager.Instance.off(EVENT_ENUM.ATTACK_ENEMY, this.onDie)
   }
 
@@ -34,22 +37,29 @@ export class EnemyManager extends EntityManager {
   }
 
   // 面朝玩家方向
-  changeToPlayerDirection() {
-    if (this.state === ENTITY_STATE_ENUM.DEATH) return
+  changeToPlayerDirection(init:boolean) {
+    if (this.isDie) return
+
     const player = DataManager.Instance.player
     if (!player) return
     const { x: playerX, y: playerY } = player
     const { x, y } = this
     const disX = Math.abs(x - playerX)
-    const dixY = Math.abs(y - playerY)
+    const disY = Math.abs(y - playerY)
+
+    if (disX === disY && !init) {
+      return
+    }
+    console.log(this)
+
     if (playerX >= x && playerY <= y) {
-      this.direction = dixY > disX ? DIRECTION_ENUM.TOP : DIRECTION_ENUM.RIGHT
+      this.direction = disY > disX ? DIRECTION_ENUM.TOP : DIRECTION_ENUM.RIGHT
     } else if (playerX <= x && playerY <= y) {
-      this.direction = dixY > disX ? DIRECTION_ENUM.TOP : DIRECTION_ENUM.LEFT
+      this.direction = disY > disX ? DIRECTION_ENUM.TOP : DIRECTION_ENUM.LEFT
     } else if (playerX <= x && playerY >= y) {
-      this.direction = dixY > disX ? DIRECTION_ENUM.BOTTOM : DIRECTION_ENUM.LEFT
+      this.direction = disY > disX ? DIRECTION_ENUM.BOTTOM : DIRECTION_ENUM.LEFT
     } else if (playerX >= x && playerY >= y) {
-      this.direction = dixY > disX ? DIRECTION_ENUM.BOTTOM : DIRECTION_ENUM.RIGHT
+      this.direction = disY > disX ? DIRECTION_ENUM.BOTTOM : DIRECTION_ENUM.RIGHT
     }
   }
 

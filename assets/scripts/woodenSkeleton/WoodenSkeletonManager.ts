@@ -19,7 +19,6 @@ export class WoodenSkeletonManager extends EnemyManager {
     this.fsm = this.addComponent(WoodenSkeletonStateMachine)
     this.fsm.init()
 
-
     super.init(params)
 
     EventManager.Instance.on(EVENT_ENUM.PLAYER_MOVE_END, this.attackPlayer, this)

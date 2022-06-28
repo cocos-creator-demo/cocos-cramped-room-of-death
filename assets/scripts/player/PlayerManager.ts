@@ -19,9 +19,9 @@ export class PlayerManager extends EntityManager {
 
   private readonly speed = 1 / 10
 
-  init(params:IEntity) {
+  async init(params:IEntity) {
     this.fsm = this.addComponent(PlayerStateMachine)
-    this.fsm.init()
+    await this.fsm.init()
 
     super.init(params)
 
@@ -182,6 +182,7 @@ export class PlayerManager extends EntityManager {
     }
     const canTileMovable = (x, y) => {
       const tile = tileInfo[x][y]
+
       if(!tile) {
         // 是否有悬空的石头，有的话也可以走
         const bursts = DataManager.Instance.bursts
