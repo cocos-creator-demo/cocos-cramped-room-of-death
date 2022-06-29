@@ -1,8 +1,8 @@
 import { _decorator } from 'cc'
-import { DIRECTION_ENUM, ENTITY_STATE_ENUM, ENTITY_TYPE_ENUM } from '../enums'
 import { IronSkeletonStateMachine } from './IronSkeletonStateMachine'
 
 import { EnemyManager } from '../base/EnemyManager'
+import { IEntity } from '../levels'
 
 const { ccclass } = _decorator
 
@@ -13,16 +13,9 @@ export class IronSkeletonManager extends EnemyManager {
   targetY: number = 0
   fsm: IronSkeletonStateMachine
 
-  init() {
+  init(params:IEntity) {
     this.fsm = this.addComponent(IronSkeletonStateMachine)
     this.fsm.init()
-    super.init({
-      x: 2,
-      y: 6,
-      type: ENTITY_TYPE_ENUM.IRON_SKELETON,
-      direction: DIRECTION_ENUM.TOP,
-      state: ENTITY_STATE_ENUM.IDLE,
-    })
-
+    super.init(params)
   }
 }

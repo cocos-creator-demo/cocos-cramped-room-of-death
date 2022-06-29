@@ -19,7 +19,7 @@ export class PlayerManager extends EntityManager {
 
   private readonly speed = 1 / 10
 
-  async init(params:IEntity) {
+  async init(params: IEntity) {
     this.fsm = this.addComponent(PlayerStateMachine)
     await this.fsm.init()
 
@@ -70,16 +70,22 @@ export class PlayerManager extends EntityManager {
     if (this.isMoving) {
       return
     }
-    if ([ENTITY_STATE_ENUM.DEATH,ENTITY_STATE_ENUM.DEATH_ON_AIR, ENTITY_STATE_ENUM.ATTACK].indexOf(this.state) > -1) {
+    if ([ENTITY_STATE_ENUM.DEATH, ENTITY_STATE_ENUM.DEATH_ON_AIR, ENTITY_STATE_ENUM.ATTACK].indexOf(this.state) > -1) {
       return
     }
     const enemy = this.willAttack(dir)
     if (enemy) {
+      EventManager.Instance.emit(EVENT_ENUM.RECORD_STEP)
+
+      this.state = ENTITY_STATE_ENUM.ATTACK
+
       EventManager.Instance.emit(EVENT_ENUM.ATTACK_ENEMY, enemy)
       EventManager.Instance.emit(EVENT_ENUM.DOOR_OPEN)
+      EventManager.Instance.emit(EVENT_ENUM.PLAYER_MOVE_END)
       return
     }
     if (this.willBlock(dir)) {
+      EventManager.Instance.emit(EVENT_ENUM.SCREEN_SHAKE, dir)
       return
     }
     this.move(dir)
@@ -90,22 +96,27 @@ export class PlayerManager extends EntityManager {
   }
 
   move(dir: CONTROLLER_NUM) {
+    EventManager.Instance.emit(EVENT_ENUM.RECORD_STEP)
     switch (dir) {
       case CONTROLLER_NUM.BOTTOM:
         this.targetY += 1
         this.isMoving = true
+        this.showSmoke(DIRECTION_ENUM.BOTTOM)
         break
       case CONTROLLER_NUM.TOP:
         this.isMoving = true
         this.targetY -= 1
+        this.showSmoke(DIRECTION_ENUM.TOP)
         break
       case CONTROLLER_NUM.RIGHT:
         this.isMoving = true
         this.targetX += 1
+        this.showSmoke(DIRECTION_ENUM.RIGHT)
         break
       case CONTROLLER_NUM.LEFT:
         this.isMoving = true
         this.targetX -= 1
+        this.showSmoke(DIRECTION_ENUM.BOTTOM)
         break
       case CONTROLLER_NUM.TURN_LEFT:
         if (this.direction === DIRECTION_ENUM.TOP) {
@@ -162,8 +173,8 @@ export class PlayerManager extends EntityManager {
 
     // 对应坐标上是否有障碍
     const hasObstacle = (x, y) => {
-      const {door} =  DataManager.Instance
-      if(door) {
+      const { door } = DataManager.Instance
+      if (door) {
         const { x: doorX, y: doorY, isDie: isDoorDie } = door
         if (!isDoorDie && doorX === x && doorY === y) return true
       }
@@ -183,15 +194,15 @@ export class PlayerManager extends EntityManager {
     const canTileMovable = (x, y) => {
       const tile = tileInfo[x][y]
 
-      if(!tile) {
+      if (!tile) {
         // 是否有悬空的石头，有的话也可以走
         const bursts = DataManager.Instance.bursts
-        return bursts.some(burst=>{
+        return bursts.some(burst => {
           return !burst.isDie && burst.x === x && burst.y === y
         })
 
       }
-      if(!tile.moveable) return false
+      if (!tile.moveable) return false
       return !hasObstacle(x, y)
     }
     // 武器是否能够旋转
@@ -294,5 +305,13 @@ export class PlayerManager extends EntityManager {
     }
 
     return false
+  }
+
+  showSmoke(type: DIRECTION_ENUM) {
+    EventManager.Instance.emit(EVENT_ENUM.SHOW_SMOKE, this.x, this.y, type)
+  }
+
+  onAttackShake(type: DIRECTION_ENUM) {
+    EventManager.Instance.emit(EVENT_ENUM.SCREEN_SHAKE, type)
   }
 }

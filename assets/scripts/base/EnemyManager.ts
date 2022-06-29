@@ -50,7 +50,6 @@ export class EnemyManager extends EntityManager {
     if (disX === disY && !init) {
       return
     }
-    console.log(this)
 
     if (playerX >= x && playerY <= y) {
       this.direction = disY > disX ? DIRECTION_ENUM.TOP : DIRECTION_ENUM.RIGHT

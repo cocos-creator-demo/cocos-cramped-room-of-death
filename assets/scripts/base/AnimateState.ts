@@ -3,7 +3,7 @@ import ResourceManager from '../runtime/ResourceManager'
 import { sortSpriteFrame } from '../utils'
 import { AnimationStateMachine } from './AnimationStateMachine'
 
-const ANIMATION_SPEED = 1 / 8 // 1秒8帧
+export const ANIMATION_SPEED = 1 / 8 // 1秒8帧
 
 export default class AnimateState {
 
@@ -11,7 +11,7 @@ export default class AnimateState {
 
   runCache: Function[] = []
 
-  constructor(private fsm: AnimationStateMachine, private path: string, private wrapMode: AnimationClip.WrapMode = AnimationClip.WrapMode.Normal) {
+  constructor(private fsm: AnimationStateMachine, private path: string, private wrapMode: AnimationClip.WrapMode = AnimationClip.WrapMode.Normal, private speed: number = ANIMATION_SPEED, private events: AnimationClip.IEvent[] = []) {
     this.init()
   }
 
@@ -34,6 +34,12 @@ export default class AnimateState {
     this.animationClip.name = this.path
     this.animationClip.duration = frames.length * ANIMATION_SPEED
     this.animationClip.wrapMode = this.wrapMode
+
+    for (const event of this.events) {
+      this.animationClip.events.push(event)
+    }
+    // 帧事件需要调用该数据
+    this.animationClip.updateEventDatas()
 
     if (this.runCache.length) {
       this.runCache.forEach(cb => {

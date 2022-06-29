@@ -20,7 +20,7 @@ export class SpikesManager extends Component {
   y: number = 0
   fsm: SpikesStateMachine
 
-  private type: ENTITY_TYPE_ENUM
+  type: ENTITY_TYPE_ENUM
   private _count: number
   private _totalCount: number
 

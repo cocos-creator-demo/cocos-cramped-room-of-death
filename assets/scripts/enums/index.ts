@@ -1,3 +1,10 @@
+
+export enum SCENE_ENUM {
+  LOADING = 'Loading',
+  START = 'Start',
+  BATTLE = 'Battle'
+}
+
 /***
  * 地图瓦片枚举
  */
@@ -22,7 +29,13 @@ export enum EVENT_ENUM {
   PLAYER_MOVE_END = 'PLAYER_MOVE_END',
   ATTACK_PLAYER = 'ATTACK_PLAYER',
   ATTACK_ENEMY = 'ATTACK_ENEMY',
-  DOOR_OPEN = 'DOOR_OPEN'
+  DOOR_OPEN = 'DOOR_OPEN',
+  SHOW_SMOKE = 'SHOW_SMOKE',
+  SCREEN_SHAKE = 'SCREEN_SHAKE',
+  RECORD_STEP = 'RECORD_STEP',
+  REVOKE_STEP = 'REVOKE_STEP',
+  RESTART = 'RESTART',
+  QUIT = 'QUIT',
 }
 
 
@@ -93,6 +106,8 @@ export enum ENTITY_TYPE_ENUM {
   SPIKES_TWO = 'SPIKES_TWO',
   SPIKES_THREE = 'SPIKES_THREE',
   SPIKES_FOUR = 'SPIKES_FOUR',
+
+  SMOKE = 'SMOKE'
 }
 
 // 尖刺当前点数枚举
@@ -121,4 +136,12 @@ export enum SPIKES_COUNT_MAP_NUMBER_ENUM {
   THREE = 3,
   FOUR = 4,
   FIVE = 5,
+}
+
+
+export enum SHAKE_TYPE_ENUM {
+  TOP = 'TOP',
+  BOTTOM = 'BOTTOM',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
 }

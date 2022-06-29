@@ -1,12 +1,14 @@
 import Singleton from '../base/Singleton'
-import { ITile } from '../levels'
+import { ILevel, ITile } from '../levels'
 import { TileManager } from '../tile/TileManager'
 import { PlayerManager } from '../player/PlayerManager'
 import { DoorManager } from '../door/DoorManager'
 import { EnemyManager } from '../base/EnemyManager'
 import { BurstManager } from '../burst/BurstManager'
+import { SmokeManager } from '../smoke/SmokeManager'
+import { SpikesManager } from '../spikes/SpikesManager'
 
-
+export type IRecord = Omit<ILevel, 'mapInfo'>
 export default class DataManager extends Singleton {
 
 
@@ -20,6 +22,10 @@ export default class DataManager extends Singleton {
   door: DoorManager = null
   enemies: EnemyManager[] = []
   bursts: BurstManager[] = []
+  smokes: SmokeManager[] = []
+  spikes: SpikesManager[] = []
+
+  records: IRecord[] = []
 
   static get Instance() {
     return super.getInstance<DataManager>()
@@ -34,6 +40,8 @@ export default class DataManager extends Singleton {
     this.enemies = []
     this.door = null
     this.bursts = []
+    this.smokes = []
+    this.spikes = []
   }
 }
 
